@@ -1,0 +1,27 @@
+-------------------------------------------------------------------------------
+LEDA
+-------------------------------------------------------------------------------
+Version:        1.0
+
+Description:    Library Extension for Data Analysis
+
+UpdateRecord:   
+  2005/02/10    K.Fujii   (v.1.0)	Separated from Satellites
+
+Usage:
+
+[0] Set some environmental variables for ROOT
+
+$ export ROOTSYS=/opt/root/pro
+$ export LCBASEDIR=/proj/soft/lcbase/pro
+$ export LEDAROOT=/proj/soft/leda/pro
+$ export PATH=$PATH:$LCBASEDIR/bin:$ROOTSYS/bin
+$ export IMAKEINCLUDE=-I$LCBASEDIR
+$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib:$LEDAROOT/lib
+
+[1] Compile and run CDC analysis example
+
+$ cd $LEDAROOT
+$ make			# to build libraries
+
+

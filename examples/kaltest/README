@@ -1,0 +1,24 @@
+-------------------------------------------------------------------------------
+2003/12/25    KalTest Package
+-------------------------------------------------------------------------------
+ How to Run Test Programs
+
+- Cd to the kaltest subdirectory.
+- Choose one of the subsubdirectories in it:
+    cdc: track fitting example for a jet-chamber-like central tracker
+    tpc: track fitting example for a TPC-like central tracker
+    simple: a simple line fit example using the base kallib libraries only
+- Cd into the subsubdirectory you chose, build the test program, and run
+  as follows:
+  $ xmkmf -a
+  $ make
+  $ cd prod
+  $ ./EXKalTest
+
+Note:
+  KalTest package has been built and tested on
+	MacOSX 10.2
+	RedHat 9.0
+  with ROOT3.10.00 and the gcc3 compiler.
+-
+-
