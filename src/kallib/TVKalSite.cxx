@@ -27,6 +27,8 @@
 //
 ClassImp(TVKalSite)
 
+TVKalSystem *TVKalSite::fgKalSysPtr = 0;
+
 TVKalSite::TVKalSite(Int_t m, Int_t p)
                    :TObjArray(2),
                     TAttLockable(),
@@ -61,7 +63,6 @@ Bool_t TVKalSite::Filter()
    if (!CalcExpectedMeasVec(prea,h)) return kFALSE;
    TKalMatrix pull  = fM - h;
    TKalMatrix preC  = GetState(TVKalSite::kPredicted).GetCovMat();
-
    // Calculate fH and fHt
 
    if (!CalcMeasVecDerivative(prea,fH)) return kFALSE;
