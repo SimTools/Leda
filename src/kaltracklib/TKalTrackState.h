@@ -13,10 +13,12 @@
 //*     class TKalTrackState
 //* (Update Recored)
 //*   2003/09/30  Y.Nakashima       Original version.
+//*   2005/02/23  A.Yamaguchi       Added CalcDapDa method.
 //*
 //*************************************************************************
 //
 #include "TVKalState.h"
+#include "TKalDetCradle.h"
 #include "THelicalTrack.h"
 #include "TStraightTrack.h"
 #include "KalTrackDim.h"
@@ -57,9 +59,17 @@ public:
 
    // Derived class methods
 
-   THelicalTrack  GetHelix() const;
-   TStraightTrack GetLine () const;
-   TKalMatrix    CalcProcessNoise(const TVKalSite &to,Double_t dfi) const;
+   THelicalTrack   GetHelix() const;
+   TStraightTrack  GetLine () const;
+   TVTrack        &CreateTrack() const;
+
+private:
+   TKalMatrix      CalcProcessNoise(const TKalTrackSite  &to,
+                                    const TKalTrackState &ato,
+                                    const TVTrack        &tto,
+                                          Double_t        dfi) const;
+   TKalMatrix      CalcQ           (const TKalDetCradle::RadLPair &radpair,
+                                          Bool_t                   isInB) const;
 
 private:
 

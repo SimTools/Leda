@@ -1,6 +1,21 @@
 #ifndef __TVTRACKHIT__
 #define __TVTRACKHIT__
 
+//*************************************************************************
+//* ====================
+//*  TVTrackHit Class
+//* ====================
+//*
+//* (Description)
+//*   Abstract base class to store single hit information.
+//* (Requires)
+//* (Provides)
+//*     class TVTrackHit
+//* (Update Recored)
+//*   2003/09/30  Y.Nakashima       Original version.
+//*
+//*************************************************************************
+
 #include "TVector3.h"
 #include "TKalMatrix.h"
 #include "KalTrackDim.h"

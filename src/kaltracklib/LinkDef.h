@@ -9,6 +9,7 @@
 #pragma link C++ class TKalTrackSite+;
 #pragma link C++ class TKalTrackState+;
 #pragma link C++ class TKalTrack+;
+#pragma link C++ class TKalDetCradle+;
 #pragma link C++ class TVKalDetector+;
 
 #endif

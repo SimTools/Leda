@@ -11,6 +11,7 @@
 //*     class TKalTrack
 //* (Update Recored)
 //*   2003/09/30  Y.Nakashima   Original version.
+//*   2005/02/23  A.Yamaguchi   Added a new data member, fMass.
 //*
 //*************************************************************************
                                                                                 
@@ -29,7 +30,7 @@ using namespace std;
 ClassImp(TKalTrack)
                                                                                 
 TKalTrack::TKalTrack(Int_t n)
-            :TVKalSystem(n)
+            :TVKalSystem(n), fMass(0.)
 {
 }
 

@@ -15,12 +15,14 @@
 //*************************************************************************
 //
 #include <iostream>
-#include "TMath.h"
+#include <memory>
+//#include "TMath.h"
 
 #include "TKalTrackSite.h"
 #include "TKalTrackState.h"
 #include "TVTrackHit.h"
-#include "TVMeasLayer.h"
+
+#include "TVSurface.h"
 
 using namespace std;
 
@@ -83,17 +85,10 @@ Int_t TKalTrackSite::CalcXexp(const TVKalState &a,
                                     TVector3   &xx, 
                                     Double_t   &phi) const
 {
-   TVTrack       *vtrkPtr = 0;
-   THelicalTrack  hl      = (*(TKalTrackState *)&a).GetHelix();
-   TStraightTrack sl      = (*(TKalTrackState *)&a).GetLine ();
+   std::auto_ptr<TVTrack> hel(&static_cast<const TKalTrackState &>(a).CreateTrack());
 
-   if (IsInB())   vtrkPtr = &hl;
-   else           vtrkPtr = &sl;
-
-   TVTrack       &hel     = *vtrkPtr;
-
-   const TVSurface &ms = *dynamic_cast<const TVSurface *> (&GetHit().GetMeasLayer());
-   return ms.CalcXingPointWith(hel,xx,phi);
+   const TVSurface &ms = dynamic_cast<const TVSurface &>(GetHit().GetMeasLayer());
+   return ms.CalcXingPointWith(*hel,xx,phi);
 }
 
 
@@ -111,7 +106,7 @@ Int_t TKalTrackSite::CalcExpectedMeasVec(const TVKalState &a, TKalMatrix &h)
 }
 
 Int_t TKalTrackSite::CalcMeasVecDerivative(const TVKalState &a,
-                                             TKalMatrix &H)
+                                                 TKalMatrix &H)
 {
    // Calculate 
    //    H = (@h/@a) = (@d/@a, @z/@a)^t
@@ -125,21 +120,13 @@ Int_t TKalTrackSite::CalcMeasVecDerivative(const TVKalState &a,
 
    if (!CalcXexp(a,xxv,phi)) return 0; // hit on S(x) = 0
 
-   const TVSurface &ms 
-                = *dynamic_cast<const TVSurface *> (&GetHit().GetMeasLayer());
-   TKalMatrix    dsdx(ms.CalcDSDx(xxv)); 		     // (@S(x)/@x)
+   const TVSurface &ms = dynamic_cast<const TVSurface &>(GetHit().GetMeasLayer());
+   TKalMatrix    dsdx(ms.CalcDSDx(xxv));   // (@S(x)/@x)
 
-   TVTrack       *vtrkPtr = 0;
-   THelicalTrack  hl      = (*(TKalTrackState *)&a).GetHelix();
-   TStraightTrack sl      = (*(TKalTrackState *)&a).GetLine ();
+   std::auto_ptr<TVTrack> hel(&static_cast<const TKalTrackState &>(a).CreateTrack());
 
-   if (IsInB())   vtrkPtr = &hl;
-   else           vtrkPtr = &sl;
-
-   TVTrack       &hel     = *vtrkPtr;				     // track
-
-   TKalMatrix    dxda   = hel.CalcDxDa(phi);   	 	     // (@x(phi,a)/@a)
-   TKalMatrix    dxdphi = hel.CalcDxDphi(phi); 		     // (@x(phi,a)/@phi)
+   TKalMatrix    dxda   = hel->CalcDxDa(phi);  	     // (@x(phi,a)/@a)
+   TKalMatrix    dxdphi = hel->CalcDxDphi(phi);	     // (@x(phi,a)/@phi)
 
    TKalMatrix dphida = dsdx * dxda;
    TKalMatrix dsdphi = dsdx * dxdphi;

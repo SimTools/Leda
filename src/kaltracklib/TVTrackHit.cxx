@@ -1,3 +1,18 @@
+//*************************************************************************
+//* ====================
+//*  TVTrackHit Class
+//* ====================
+//*
+//* (Description)
+//*   Abstract base class to store single hit information.
+//* (Requires)
+//* (Provides)
+//*     class TVTrackHit
+//* (Update Recored)
+//*   2003/09/30  Y.Nakashima       Original version.
+//*
+//*************************************************************************
+
 #include "TVTrackHit.h"
 
 ClassImp(TVTrackHit)
