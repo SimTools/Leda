@@ -13,6 +13,7 @@
 //*     class TPlane
 //* (Update Recored)
 //*   2004/10/30  A.Yamaguchi       Original version.
+//*   2005/02/23  K.Fujii           Added GetSortingPolicy().
 //*
 //*************************************************************************
 //
@@ -39,6 +40,8 @@ public:
    inline virtual       Bool_t     IsOnSurface(const TVector3 &xx) const;
    inline virtual       Bool_t     IsOutside  (const TVector3 &xx) const;
 
+   inline virtual       Double_t   GetSortingPolicy()              const;
+
 
 private:
    TVector3 fXc;          // center
@@ -60,5 +63,10 @@ Bool_t TPlane::IsOutside(const TVector3 &xx) const
 {
    return (xx - fXc) * fNormal > 0. ? kTRUE : kFALSE; 
 } 
+
+Double_t TPlane::GetSortingPolicy() const
+{
+   return TMath::Abs(fXc*fNormal.Unit());
+}
 #endif
 

@@ -61,6 +61,10 @@ public:
    TVector3 CalcXAt   (Double_t phi) const;
    TMatrixD CalcDxDa  (Double_t phi) const;
    TMatrixD CalcDxDphi(Double_t phi) const;
+   void     CalcDapDa (Double_t fid,
+                       Double_t dr,
+                       Double_t drp,
+                       TMatrixD &F)  const;
 
 private:
 

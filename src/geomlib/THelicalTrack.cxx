@@ -332,3 +332,61 @@ void THelicalTrack::CalcStartHelix(const TVector3 &x1,
 
    SetTo(sv, x1);
 }
+
+void THelicalTrack::CalcDapDa(Double_t  fid,
+                              Double_t  dr,
+                              Double_t  drp,
+                              TMatrixD &F) const
+{
+   // ---------------------------------------------------
+   // (2) Calculate @a'/@a = @a'/a = F_k-1
+   // ---------------------------------------------------
+   //        a' = (dr', fi0', cpa', dz', tnl')
+   //        a  = (dr , fi0 , cpa , dz , tnl )
+   //
+                                                                                
+   // @drho'/@a
+   Double_t cpa   = fKappa;
+   Double_t tnl   = fTanL;
+   Double_t csfd  = TMath::Cos(fid);
+   Double_t snfd  = TMath::Sin(fid);
+   Double_t r     = fAlpha / cpa;
+   Double_t rdr   = r + dr;
+   Double_t rcpar = r / cpa;
+   Double_t rdrpr = 1. / (r + drp);
+                                                                                
+   F(0,0) = csfd;
+   F(0,1) = rdr*snfd;
+   F(0,2) = rcpar*(1.-csfd);
+   F(0,3) = 0.;
+   F(0,4) = 0.;
+                                                                                
+   // @phi0'/@a
+   F(1,0) = -rdrpr*snfd;
+   F(1,1) =  rdr*rdrpr*csfd;
+   F(1,2) =  rcpar*rdrpr*snfd;
+   F(1,3) =  0.;
+   F(1,4) =  0.;
+                                                                                
+   // @kappa'/@a
+   F(2,0) = 0.;
+   F(2,1) = 0.;
+   F(2,2) = 1.;
+   F(2,3) = 0.;
+   F(2,4) = 0.;
+                                                                                
+   // @dz'/@a
+   F(3,0) =  r*rdrpr*tnl*snfd;
+   F(3,1) =  r*tnl*(1.-rdr*rdrpr*csfd);
+   F(3,2) =  rcpar*tnl*(fid-r*rdrpr*snfd);
+   F(3,3) =  1.;
+   F(3,4) = -r*fid;
+                                                                                
+   // @tanl'/@a
+   F(4,0) = 0.;
+   F(4,1) = 0.;
+   F(4,2) = 0.;
+   F(4,3) = 0.;
+   F(4,4) = 1.;
+}
+

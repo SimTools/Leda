@@ -13,6 +13,7 @@
 //*     class THype
 //* (Update Recored)
 //*   2003/10/03  K.Fujii       Original version.
+//*   2005/02/23  K.Fujii       Added GetSortingPolicy().
 //*
 //*************************************************************************
 //
@@ -40,6 +41,8 @@ public:
 
    inline virtual       Bool_t     IsOnSurface(const TVector3 &xx) const;
    inline virtual       Bool_t     IsOutside  (const TVector3 &xx) const;
+
+   inline virtual       Double_t   GetSortingPolicy()              const;
 
    inline virtual       Double_t   GetR0     () const { return fR0;   } 
    inline virtual const TVector3 & GetXc     () const { return fXc;   } 
@@ -94,5 +97,10 @@ Bool_t THype::IsOutside(const TVector3 &xx) const
    
    return (r*r > R2 || z < GetZmin() || z > GetZmax());
 } 
+
+Double_t THype::GetSortingPolicy() const
+{
+   return GetR0();
+}
 #endif
 

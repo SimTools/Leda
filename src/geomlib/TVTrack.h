@@ -76,9 +76,21 @@ public:
       sv(4,0) = fTanL;
    }
 
+   virtual TMatrixD CalcDapDa (Double_t fid,
+                               Double_t dr,
+                               Double_t drp) const
+   {
+      TMatrixD F(5,5);
+      CalcDapDa(fid, dr, drp, F);
+      return F;
+   }
    virtual TVector3 CalcXAt   (Double_t phi) const = 0;
    virtual TMatrixD CalcDxDa  (Double_t phi) const = 0;
    virtual TMatrixD CalcDxDphi(Double_t phi) const = 0;
+   virtual void     CalcDapDa (Double_t fid,
+                               Double_t dr,
+                               Double_t drp,
+                               TMatrixD &F)  const = 0;
 
    // Getters
 

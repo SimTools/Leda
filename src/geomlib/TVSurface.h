@@ -13,6 +13,8 @@
 //*     class TVSurface
 //* (Update Recored)
 //*   2003/10/03  K.Fujii       Original version.
+//*   2005/02/23  K.Fujii       Added new methods, Compare() and
+//*                             GetSortingPolicy().
 //*
 //*************************************************************************
 //
@@ -37,6 +39,11 @@ public:
    virtual TMatrixD CalcDSDx         (const TVector3 &xx) const = 0;
    virtual Bool_t   IsOnSurface      (const TVector3 &xx) const = 0;
    virtual Bool_t   IsOutside        (const TVector3 &xx) const = 0;
+
+   virtual Double_t GetSortingPolicy ()                   const = 0;
+
+   virtual Int_t    Compare   (const TObject *obj) const;
+   virtual Bool_t   IsSortable()                   const { return kTRUE; }
 
 private:
  

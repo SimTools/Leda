@@ -11,6 +11,8 @@
 //*     class TVSurface
 //* (Update Recored)
 //*   2003/10/03  K.Fujii       Original version.
+//*   2005/02/23  K.Fujii       Added new methods, Compare() and
+//*                             GetSortingPolicy().
 //*
 //*************************************************************************
 //
@@ -92,3 +94,14 @@ Int_t TVSurface::CalcXingPointWith(const TVTrack  &hel,
    return (IsOnSurface(xx) ? 1 : 0);
 }
 
+//_____________________________________________________________________
+//  -----------------------------------
+//  Compare to Surfaces
+//  -----------------------------------
+//
+Int_t TVSurface::Compare(const TObject *obj) const
+{
+   Double_t me  = GetSortingPolicy();
+   Double_t you = dynamic_cast<const TVSurface *>(obj)->GetSortingPolicy();
+   return me < you ? -1 : (me > you ? +1 : 0);
+}

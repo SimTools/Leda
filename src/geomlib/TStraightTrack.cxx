@@ -237,3 +237,46 @@ TMatrixD TStraightTrack::CalcDxDphi(Double_t t) const
 
    return dxdphi;
 }
+
+void TStraightTrack::CalcDapDa(Double_t fid,
+                               Double_t dr,
+                               Double_t drp,
+                               TMatrixD &F) const
+{
+   // @drho'/@a
+   F(0,0) =  1;
+   F(0,1) = -fid;
+   F(0,2) =  0;
+   F(0,3) =  0;
+   F(0,4) =  0;
+                                                                                
+   // @phi0'/@a
+   F(1,0) =  0;
+   F(1,1) =  1;
+   F(1,2) =  0;
+   F(1,3) =  0;
+   F(1,4) =  0;
+                                                                                
+   // @kappa'/@a
+                                                                                
+   F(2,0) =  0;
+   F(2,1) =  0;
+   F(2,2) =  1;
+   F(2,3) =  0;
+   F(2,4) =  0;
+                                                                                
+   // @dz'/@a
+   F(3,0) =  0;
+   F(3,1) =  (drp - dr)* fTanL;
+   F(3,2) =  0;
+   F(3,3) =  1;
+   F(3,4) =  fid;
+                                                                                
+   // @tanl'/@a
+   F(4,0) = 0;
+   F(4,1) = 0;
+   F(4,2) = 0;
+   F(4,3) = 0;
+   F(4,4) = 1;
+} 
+

@@ -13,6 +13,7 @@
 //*     class TCylinder
 //* (Update Recored)
 //*   2003/10/03  K.Fujii       Original version.
+//*   2005/02/23  K.Fujii       Added GetSortingPolicy().
 //*
 //*************************************************************************
 //
@@ -50,6 +51,8 @@ public:
 
    inline virtual       Bool_t     IsOnSurface(const TVector3 &xx) const;
    inline virtual       Bool_t     IsOutside  (const TVector3 &xx) const;
+
+   inline virtual       Double_t   GetSortingPolicy()              const;
 
    inline virtual       Double_t   GetR      () const { return fR;    } 
    inline virtual const TVector3 & GetXc     () const { return fXc;   } 
@@ -94,5 +97,10 @@ Bool_t TCylinder::IsOutside(const TVector3 &xx) const
    Double_t z = xx.Z();
    return (r > fR || z < GetZmin() || z > GetZmax());
 } 
+
+Double_t TCylinder::GetSortingPolicy() const
+{
+   return GetR();
+}
 #endif
 
