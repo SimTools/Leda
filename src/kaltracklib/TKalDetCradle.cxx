@@ -47,12 +47,11 @@ void TKalDetCradle::Install(TVKalDetector &det)
    fDone = kFALSE;
 }
 
-const std::vector<TKalDetCradle::RadLPair>
-                 &TKalDetCradle::GetX0Table(const TKalTrackSite &from,
-                                            const TKalTrackSite &to)
+const TObjArray &TKalDetCradle::GetX0Table(const TKalTrackSite &from,
+                                           const TKalTrackSite &to)
 {
    if (!fDone) Update();
-   fRadLPairs.clear();
+   fRadLPairs.Delete();
 
    Int_t fridx = from.GetHit().GetMeasLayer().GetIndex();
    Int_t toidx = to.GetHit().GetMeasLayer().GetIndex();
@@ -66,8 +65,8 @@ const std::vector<TKalDetCradle::RadLPair>
 
    for (Int_t i=fridx; (di>0 && i<=toidx-di)||(di<0 && i>=toidx-di); i += di) {
       if(dynamic_cast<TVSurface*>(At(i+di))->CalcXingPointWith(*hel, xx, phi)) {
-         fRadLPairs.push_back(RadLPair(dynamic_cast<TVMeasLayer *>
-                   (At(i))->GetX0Inv(di > 0), phi - philast));
+         fRadLPairs.Add(new TVector2(dynamic_cast<TVMeasLayer *>
+                       (At(i))->GetX0Inv(di > 0), phi - philast));
          philast = phi;
       }
    }

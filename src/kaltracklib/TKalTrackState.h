@@ -68,8 +68,8 @@ private:
                                     const TKalTrackState &ato,
                                     const TVTrack        &tto,
                                           Double_t        dfi) const;
-   TKalMatrix      CalcQ           (const TKalDetCradle::RadLPair &radpair,
-                                          Bool_t                   isInB) const;
+   TKalMatrix      CalcQ           (const TVector2 &radpair,
+                                          Bool_t    isInB) const;
 
 private:
 

@@ -20,8 +20,6 @@
 
 #include "TObjArray.h"
 #include "TVKalDetector.h"
-#include <utility>
-#include <vector>
 
 class TKalTrackSite;
 
@@ -49,17 +47,17 @@ public:
    // GetX0Table(from, to) returns an array/vector of RadPairs between
    // from and to sites. This information on the material distribution
    // is used in TKalTrackState::CalcProcessNoice(to,mass).
-   typedef std::pair<Double_t, Double_t> RadLPair;
-   const std::vector<RadLPair> &GetX0Table(const TKalTrackSite &from,
-                                           const TKalTrackSite &to);
+
+   const TObjArray &GetX0Table(const TKalTrackSite &from,
+                               const TKalTrackSite &to);
 
 private:
    void Update();
 
 private:
-   std::vector<RadLPair> fRadLPairs; //! material info carrier
-   Bool_t                fIsMSON;    //! switch for multiple scattering
-   Bool_t                fDone;      //! flag to tell if sorting done
+   TObjArray fRadLPairs; //! material info carrier
+   Bool_t    fIsMSON;    //! switch for multiple scattering
+   Bool_t    fDone;      //! flag to tell if sorting done
 
    ClassDef(TKalDetCradle,1)  // Base class for detector system
 };

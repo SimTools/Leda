@@ -126,11 +126,11 @@ TKalMatrix TKalTrackState::CalcProcessNoise(const TKalTrackSite  &to,
    TKalMatrix Q(p,p);
    if (!det.IsMSOn()) return Q;
 
-   const vector<TKalDetCradle::RadLPair> &radpairs
+   const TObjArray &radpairs
               = det.GetX0Table(from, static_cast<const TKalTrackSite &>(to));
 
    Bool_t isInB = from.IsInB();
-   Int_t  nel   = radpairs.size();
+   Int_t  nel   = radpairs.GetEntries();
    if (!nel) return Q;
 
    Double_t delfi = dfi;
@@ -147,9 +147,9 @@ TKalMatrix TKalTrackState::CalcProcessNoise(const TKalTrackSite  &to,
       TKalMatrix D  = TKalMatrix(TMatrixD::kUnit, Q);
 #endif
       TKalMatrix Dt = TKalMatrix(TMatrixD::kTransposed, D);
-      TKalMatrix Qi = CalcQ(radpairs[i], isInB);
+      TKalMatrix Qi = CalcQ(*dynamic_cast<TVector2 *>(radpairs[i]), isInB);
       Q += D * Qi * Dt;
-      delfi -= radpairs[i].second;
+      delfi -= dynamic_cast<TVector2 *>(radpairs[i])->Y();
       //dr = drp;
    }
    return Q;
@@ -195,8 +195,8 @@ TStraightTrack TKalTrackState::GetLine() const
    return TStraightTrack(a,fX0,((TKalTrackSite *)&GetSite())->GetBfield());
 }
 
-TKalMatrix TKalTrackState::CalcQ(const TKalDetCradle::RadLPair &radpair,
-                                       Bool_t                   isInB) const
+TKalMatrix TKalTrackState::CalcQ(const TVector2 &radpair,
+                                       Bool_t    isInB) const
 {
    Double_t cpa    = (*this)(2, 0);
    Double_t tnl    = (*this)(4, 0); 
@@ -212,8 +212,8 @@ TKalMatrix TKalTrackState::CalcQ(const TKalDetCradle::RadLPair &radpair,
    Double_t   beta = mom / TMath::Sqrt(mom * mom + mass * mass);
 
    // *Calculate sigma_ms0 ---------------------------------------------
-   Double_t x0inv = radpair.first;    // radiation length inverse
-   Double_t df    = radpair.second;   // delta phi
+   Double_t x0inv = radpair.X();  // radiation length inverse
+   Double_t df    = radpair.Y();  // delta phi
                                                                                 
    static const Double_t kMS1  = 0.0136;
    static const Double_t kMS12 = kMS1 * kMS1;
