@@ -17,7 +17,7 @@
 //*************************************************************************
 //
 #include <Rtypes.h>
-class TObject;
+
 //_____________________________________________________________________
 //  --------------------------------
 //  Base Class for Element Objects
@@ -28,14 +28,28 @@ public:
    TAttElement() : fParentPtr(0) {}
    virtual ~TAttElement() {}
 
-   inline virtual const TObject  & GetParent() const { return *fParentPtr; }
+   inline virtual const TAttElement  & GetParent(Bool_t recur = kTRUE) const;
 
-   inline virtual void  SetParentPtr(TObject *obj)   { fParentPtr = obj;   }
+   inline virtual void  SetParentPtr(TAttElement *obj)  { fParentPtr = obj; }
 
 private:
-   TObject *fParentPtr;	 // pointer to parent
+   TAttElement *fParentPtr;	 // pointer to parent
 
    ClassDef(TAttElement,1)  // Base class for lockable objects
 };
+
+//_____________________________________________________________________
+//  --------------------------------
+//  Inline functions, if any
+//  --------------------------------
+const TAttElement & TAttElement::GetParent(Bool_t recursive) const
+{
+   if (fParentPtr) {
+      if (recursive) return fParentPtr->GetParent(recursive);
+      else           return *fParentPtr;
+   } else {
+      return *this;
+   }
+}
 
 #endif
