@@ -38,9 +38,6 @@ INSTALLFLAGS += -C
 
 all:: $(SONAME) $(DYLIBNAME)
 
-world:: install
-	(cd $(SATELLITESROOT)/src; $(MAKE))
-
 $(SONAME): $(OBJS)
 	$(LD) $(SOFLAGS) -o $(SONAME) $(OBJS) $(LDFLAGS)
 

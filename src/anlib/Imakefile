@@ -34,7 +34,7 @@ ANLDYLIB	=
 
 /* Headers */
 
-INCPATH	= -I. -I$(SATELLITESROOT)/include
+INCPATH	= -I. -I$(INCINSTALLDIR)
 CXXFLAGS += $(INCPATH)
 
 /* Routines to compile */
