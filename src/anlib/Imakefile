@@ -14,7 +14,7 @@
 
 /* Template Files */
 
-#include "conf/makejsf.tmpl"
+#include "conf/lcbase.tmpl"
 
 /* Package Name */
 
@@ -56,8 +56,6 @@ ALLOBJS 	= $(OBJS) $(DICTNAME).$(ObjSuf)
 SRCS		= $(subst .$(ObjSuf),.$(SrcSuf),$(ALLOBJS))
 
 HDRS		= $(subst .$(ObjSuf),.h,$(OBJS))
-
-INSTALLFLAGS   := -C
 
 /* Make Targets */
 

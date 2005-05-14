@@ -1,4 +1,4 @@
-#include "conf/makejsf.tmpl"
+#include "conf/lcbase.tmpl"
 
 #if defined(LinuxArchitecture) && !defined(PowerPCArchitecture)
 EXTRACXXOPT = -D__LITTLE_ENDIAN__
@@ -40,8 +40,6 @@ LIBINSTALLDIR = $(INSTALLDIR)/lib
 INCINSTALLDIR = $(INSTALLDIR)/include
 INCPATH	      = -I. -I$(INCINSTALLDIR) 
 CXXFLAGS     += $(INCPATH)
-
-INSTALLFLAGS += -C
 
 all:: $(SONAME) $(DYLIBNAME)
 

@@ -1,4 +1,4 @@
-#include "conf/makejsf.tmpl"
+#include "conf/lcbase.tmpl"
 
 LDFLAGS   = /* $(GLIBS) */
 
@@ -34,8 +34,6 @@ LIBINSTALLDIR = $(INSTALLDIR)/lib
 INCINSTALLDIR = $(INSTALLDIR)/include
 INCPATH	      = -I. -I$(INCINSTALLDIR)
 CXXFLAGS     += $(INCPATH) -O0 -g 
-
-INSTALLFLAGS += -C
 
 all:: $(SONAME) $(DYLIBNAME)
 
