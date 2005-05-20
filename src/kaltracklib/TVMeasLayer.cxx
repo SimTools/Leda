@@ -22,8 +22,11 @@
 
 ClassImp(TVMeasLayer)
 
-TVMeasLayer::TVMeasLayer(Double_t x0invIn, Double_t x0invOut)
-           : fX0InvIn(x0invIn), fX0InvOut(x0invOut), fIndex(0)
+TVMeasLayer::TVMeasLayer(TMaterial     &matIn,
+                         TMaterial     &matOut)
+           : fMaterialInPtr(&matIn),
+             fMaterialOutPtr(&matOut),
+             fIndex(0)
 {
 }
 

@@ -30,7 +30,7 @@ using namespace std;
 ClassImp(TKalTrack)
                                                                                 
 TKalTrack::TKalTrack(Int_t n)
-            :TVKalSystem(n), fMass(0.)
+            :TVKalSystem(n), fMass(0.), fDir(kIterForward)
 {
 }
 

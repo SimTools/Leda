@@ -20,10 +20,10 @@
 //*************************************************************************
 //
 #include "TVector3.h"
-
 #include "TAttElement.h"
 #include "TKalMatrix.h"
 #include "KalTrackDim.h"
+#include "TMaterial.h"
 
 class TVTrackHit;
 
@@ -31,7 +31,7 @@ class TVMeasLayer : public TAttElement {
 public:
    // Ctors and Dtor
 
-   TVMeasLayer(Double_t x0invIn = 0., Double_t x0invOut = 0.);
+   TVMeasLayer(TMaterial &matIn, TMaterial &matOut);
    virtual ~TVMeasLayer() {}
 
    // Utiliy Methods
@@ -44,15 +44,16 @@ public:
                                 const TKalMatrix &dxphiada,
                                       TKalMatrix &H)  const = 0;
 
-   inline virtual Double_t GetX0Inv(Bool_t isfwd) const { return isfwd ? fX0InvOut : fX0InvIn; }
-
-   inline         Int_t    GetIndex()             const { return fIndex; }
-   inline         void     SetIndex(Int_t i)            { fIndex = i;    } 
+   inline virtual TMaterial &GetMaterial(Bool_t isfwd) const
+   { return isfwd ? *fMaterialOutPtr : *fMaterialInPtr; }
+     
+   inline Int_t GetIndex() const  { return fIndex; }
+   inline void  SetIndex(Int_t i) { fIndex = i;    } 
 
 private:
-   Double_t fX0InvIn;      // 1/X0 for inner region
-   Double_t fX0InvOut;      // 1/X0 for outer reagion
-   Int_t    fIndex;         // index in TKalDetCradle
+   TMaterial     *fMaterialInPtr;   // pointer of inner Material
+   TMaterial     *fMaterialOutPtr;  // pointer of outer Material
+   Int_t          fIndex;           // index in TKalDetCradle
 
    ClassDef(TVMeasLayer,1) 	// Measurement layer interface class
 };

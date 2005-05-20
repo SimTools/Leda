@@ -32,13 +32,16 @@ public:
    TKalTrack(Int_t n = 1);
    ~TKalTrack() {} 
 
-   inline virtual void         SetMass(Double_t m) { fMass = m;    }
-   inline virtual Double_t     GetMass() const     { return fMass; }
+   inline virtual void      SetFitDirection(Bool_t isfwd) { fDir = isfwd; }
+   inline virtual void      SetMass(Double_t m)           { fMass = m;    }
+   inline virtual Bool_t    GetFitDirection() const       { return fDir;  }
+   inline virtual Double_t  GetMass()         const       { return fMass; }
 
    Double_t FitToHelix(TKalTrackState &a, TKalMatrix &C, Int_t &ndf);
 
 private:
    Double_t     fMass;        // mass [GeV]
+   Bool_t       fDir;         // fitting direction
 
    ClassDef(TKalTrack,1)  // Base class for Kalman Filter
 };

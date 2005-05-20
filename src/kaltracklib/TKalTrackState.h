@@ -18,7 +18,6 @@
 //*************************************************************************
 //
 #include "TVKalState.h"
-#include "TKalDetCradle.h"
 #include "THelicalTrack.h"
 #include "TStraightTrack.h"
 #include "KalTrackDim.h"
@@ -65,11 +64,9 @@ public:
 
 private:
    TKalMatrix      CalcProcessNoise(const TKalTrackSite  &to,
-                                    const TKalTrackState &ato,
+                                          TKalTrackState &ato,
                                     const TVTrack        &tto,
-                                          Double_t        dfi) const;
-   TKalMatrix      CalcQ           (const TVector2 &radpair,
-                                          Bool_t    isInB) const;
+                                          Double_t        dfi)   const;
 
 private:
 

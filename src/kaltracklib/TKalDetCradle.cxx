@@ -18,11 +18,10 @@
 
 #include "TKalDetCradle.h"
 #include "TVMeasLayer.h"
+#include "TVKalDetector.h"
 #include "TKalTrackSite.h"
-#include "TKalTrackState.h"
-#include "THelicalTrack.h"
 #include "TVSurface.h"
-
+#include "TObjNum.h"
 #include <memory>
 
 ClassImp(TKalDetCradle)
@@ -42,21 +41,23 @@ void TKalDetCradle::Install(TVKalDetector &det)
    TObject *mlp = 0;  // measment layer pointer
    while ((mlp = next())) {
       Add(mlp);
-      dynamic_cast<TAttElement *>(mlp)->SetParentPtr(this);
+      dynamic_cast<TAttElement *>(mlp)->SetParentPtr(&det);
+      det.SetParentPtr(this);
    }
    fDone = kFALSE;
 }
 
-const TObjArray &TKalDetCradle::GetX0Table(const TKalTrackSite &from,
-                                           const TKalTrackSite &to)
+void TKalDetCradle::CalcTable(const TKalTrackSite &from,
+                              const TKalTrackSite &to)
 {
    if (!fDone) Update();
-   fRadLPairs.Delete();
+   fMeasLayerTable.Clear();
+   fDPhiTable.Delete();
 
    Int_t fridx = from.GetHit().GetMeasLayer().GetIndex();
    Int_t toidx = to.GetHit().GetMeasLayer().GetIndex();
    Int_t di    = fridx > toidx ? -1 : 1;
-
+   fDir = di;
    std::auto_ptr<TVTrack> hel(&static_cast<TKalTrackState &>
                              (from.GetCurState()).CreateTrack());
    TVector3 xx;
@@ -65,12 +66,11 @@ const TObjArray &TKalDetCradle::GetX0Table(const TKalTrackSite &from,
 
    for (Int_t i=fridx; (di>0 && i<=toidx-di)||(di<0 && i>=toidx-di); i += di) {
       if(dynamic_cast<TVSurface*>(At(i+di))->CalcXingPointWith(*hel, xx, phi)) {
-         fRadLPairs.Add(new TVector2(dynamic_cast<TVMeasLayer *>
-                       (At(i))->GetX0Inv(di > 0), phi - philast));
+         fMeasLayerTable.Add(At(i));
+         fDPhiTable.Add(new TObjNum(phi - philast));
          philast = phi;
       }
    }
-   return fRadLPairs;
 }
 
 void TKalDetCradle::Update()

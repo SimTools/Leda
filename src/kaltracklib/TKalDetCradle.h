@@ -19,9 +19,11 @@
 //*************************************************************************
 
 #include "TObjArray.h"
-#include "TVKalDetector.h"
+#include "TAttElement.h"
+//#include "TVKalDetector.h"
 
 class TKalTrackSite;
+class TVKalDetector;
 
 //_____________________________________________________________________
 //  ------------------------------
@@ -48,16 +50,20 @@ public:
    // from and to sites. This information on the material distribution
    // is used in TKalTrackState::CalcProcessNoice(to,mass).
 
-   const TObjArray &GetX0Table(const TKalTrackSite &from,
-                               const TKalTrackSite &to);
+   void CalcTable(const TKalTrackSite &from, const TKalTrackSite &to);
+   const TObjArray &GetMeasLayerTable() const { return fMeasLayerTable; }
+   const TObjArray &GetDPhiTable     () const { return fDPhiTable;      }
+   Int_t            GetDir           () const { return fDir;            }
 
 private:
    void Update();
 
 private:
-   TObjArray fRadLPairs; //! material info carrier
-   Bool_t    fIsMSON;    //! switch for multiple scattering
-   Bool_t    fDone;      //! flag to tell if sorting done
+   TObjArray fMeasLayerTable; //! 
+   TObjArray fDPhiTable;      //! 
+   Int_t     fDir;            //!
+   Bool_t    fIsMSON;         //! switch for multiple scattering
+   Bool_t    fDone;           //! flag to tell if sorting done
 
    ClassDef(TKalDetCradle,1)  // Base class for detector system
 };

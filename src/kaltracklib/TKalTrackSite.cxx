@@ -149,6 +149,7 @@ Bool_t TKalTrackSite::IsAccepted()
       cerr << ">>>> TKalTrackSite::IsAccepted >>>>>>>>>>>>> " << endl
            << " Too big chi2 increment!!! " << endl;
       DebugPrint();
+      //return kFALSE;
    }
 #endif
    return kTRUE;
