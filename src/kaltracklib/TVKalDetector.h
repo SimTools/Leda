@@ -22,7 +22,6 @@
 #include "TAttElement.h"
 #include "TVMeasLayer.h"
 #include "TKalTrackState.h"
-#include "TVectorD.h"
 
 //_____________________________________________________________________
 //  ------------------------------

@@ -1,6 +1,6 @@
 //*************************************************************************
 //* =====================
-//*  TVKalDetector Class
+//*  TKalDetCradle Class
 //* =====================
 //*
 //* (Description)
@@ -27,7 +27,7 @@
 ClassImp(TKalDetCradle)
 
 TKalDetCradle::TKalDetCradle(Int_t n)
-             : TObjArray(n), fIsMSON(kTRUE), fDone(kFALSE)
+             : TObjArray(n), fIsForward(kTRUE), fIsMSON(kTRUE), fDone(kFALSE)
 {
 }
 
@@ -57,7 +57,7 @@ void TKalDetCradle::CalcTable(const TKalTrackSite &from,
    Int_t fridx = from.GetHit().GetMeasLayer().GetIndex();
    Int_t toidx = to.GetHit().GetMeasLayer().GetIndex();
    Int_t di    = fridx > toidx ? -1 : 1;
-   fDir = di;
+   fIsForward  = di > 0 ? kTRUE : kFALSE;
    std::auto_ptr<TVTrack> hel(&static_cast<TKalTrackState &>
                              (from.GetCurState()).CreateTrack());
    TVector3 xx;
@@ -76,7 +76,7 @@ void TKalDetCradle::CalcTable(const TKalTrackSite &from,
 void TKalDetCradle::Update()
 {
    fDone = kTRUE;
-                                                                                
+
    UnSort();
    Sort();
 

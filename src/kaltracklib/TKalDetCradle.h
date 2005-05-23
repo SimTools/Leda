@@ -53,7 +53,7 @@ public:
    void CalcTable(const TKalTrackSite &from, const TKalTrackSite &to);
    const TObjArray &GetMeasLayerTable() const { return fMeasLayerTable; }
    const TObjArray &GetDPhiTable     () const { return fDPhiTable;      }
-   Int_t            GetDir           () const { return fDir;            }
+   Bool_t           GetDir           () const { return fIsForward;      }
 
 private:
    void Update();
@@ -61,7 +61,7 @@ private:
 private:
    TObjArray fMeasLayerTable; //! 
    TObjArray fDPhiTable;      //! 
-   Int_t     fDir;            //!
+   Bool_t    fIsForward;      //!
    Bool_t    fIsMSON;         //! switch for multiple scattering
    Bool_t    fDone;           //! flag to tell if sorting done
 
