@@ -73,8 +73,8 @@ void TVKalDetector::CalcEnergyLoss(const TMaterial      &mat,
                  : TMath::Abs(df)*cslinv;
    Double_t edep = dedx * dnsty * path;
    Double_t cpaa = TMath::Sqrt(tnl21 / (mom2 + edep
-                 * (edep + 2. * TMath::Sqrt(mom2 + mass * mass))));
-   Double_t dcpa = TMath::Abs(cpa) - cpaa;
+                 * (edep - 2. * TMath::Sqrt(mom2 + mass * mass))));
+   Double_t dcpa = TMath::Abs(TMath::Abs(cpa) - cpaa);
 #if 0
    if (cpa > 0 && !ktp->GetFitDirection() || cpa < 0 && ktp->GetFitDirection()) {
       ato(2, 0) -= dcpa;

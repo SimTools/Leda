@@ -30,7 +30,9 @@ class TVTrack;
 
 class TPlane : public TVSurface {
 public:
-   TPlane(const TVector3 &n = TVector3(0.));
+   TPlane();
+   TPlane(const TVector3 &xc);
+   TPlane(const TVector3 &xc, const TVector3 &n);
 
    virtual ~TPlane() {}
 
@@ -56,7 +58,11 @@ private:
 
 Bool_t TPlane::IsOnSurface(const TVector3 &xx) const
 {
+#if 0
    return (xx - fXc) * fNormal == 0. ? kTRUE : kFALSE; 
+#else
+   return kTRUE;
+#endif
 } 
 
 Bool_t TPlane::IsOutside(const TVector3 &xx) const

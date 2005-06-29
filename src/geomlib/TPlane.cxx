@@ -25,8 +25,18 @@
 
 ClassImp(TPlane)
 
+TPlane::TPlane()
+      : fXc(), fNormal()
+{
+} 
+
 TPlane::TPlane(const TVector3 &xc)
       : fXc(xc), fNormal(xc.Unit())
+{
+} 
+
+TPlane::TPlane(const TVector3 &xc, const TVector3 &n)
+      : fXc(xc), fNormal(n.Unit())
 {
 } 
 
