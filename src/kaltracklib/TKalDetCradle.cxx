@@ -26,13 +26,24 @@
 
 ClassImp(TKalDetCradle)
 
+TKalDetCradle* TKalDetCradle::fgInstance=0;
+
 TKalDetCradle::TKalDetCradle(Int_t n)
              : TObjArray(n), fIsForward(kTRUE), fIsMSON(kTRUE), fDone(kFALSE)
 {
+  fgInstance=this;
 }
 
 TKalDetCradle::~TKalDetCradle()
 {
+}
+
+TKalDetCradle* TKalDetCradle::GetInstance()
+{
+  if(!fgInstance) {
+    fgInstance = new TKalDetCradle();
+  }
+  return fgInstance;
 }
 
 void TKalDetCradle::Install(TVKalDetector &det)

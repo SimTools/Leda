@@ -55,10 +55,14 @@ public:
    const TObjArray &GetDPhiTable     () const { return fDPhiTable;      }
    Bool_t           GetDir           () const { return fIsForward;      }
 
+   static TKalDetCradle *GetInstance();
+
 private:
    void Update();
 
 private:
+   static TKalDetCradle *fgInstance;
+
    TObjArray fMeasLayerTable; //! 
    TObjArray fDPhiTable;      //! 
    Bool_t    fIsForward;      //!
