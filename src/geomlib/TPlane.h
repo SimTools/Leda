@@ -42,8 +42,9 @@ public:
    inline virtual       Bool_t     IsOnSurface(const TVector3 &xx) const;
    inline virtual       Bool_t     IsOutside  (const TVector3 &xx) const;
 
-   inline virtual       Double_t   GetSortingPolicy()              const;
-
+   inline virtual       Double_t   GetSortingPolicy() const;
+   inline virtual const TVector3 & GetXc           () const { return fXc; }
+   inline virtual const TVector3 & GetNormal       () const { return fNormal; }
 
 private:
    TVector3 fXc;          // center
