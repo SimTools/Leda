@@ -135,8 +135,8 @@ protected:
    static const Double_t kLightVelocity = 2.99792458e8; //
    static const Double_t kGiga          = 1.0e9;        //
 #else
-   static const Double_t kLightVelocity; //
-   static const Double_t kGiga;        //
+   static const Double_t kLightVelocity;    // light velocity
+   static const Double_t kGiga;             // Giga = 10^9
 #endif
 
    ClassDef(TVTrack,1)      // Base class for any track
