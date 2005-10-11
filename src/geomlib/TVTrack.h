@@ -131,8 +131,13 @@ protected:
    TVector3 fX0;        // pivot
    Double_t fAlpha;     // alpha
 
+#if __GNUC__ < 4
    static const Double_t kLightVelocity = 2.99792458e8; //
    static const Double_t kGiga          = 1.0e9;        //
+#else
+   static const Double_t kLightVelocity; //
+   static const Double_t kGiga;        //
+#endif
 
    ClassDef(TVTrack,1)      // Base class for any track
 };
