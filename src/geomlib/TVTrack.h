@@ -132,11 +132,11 @@ protected:
    Double_t fAlpha;     // alpha
 
 #if __GNUC__ < 4
-   static const Double_t kLightVelocity = 2.99792458e8; //
-   static const Double_t kGiga          = 1.0e9;        //
+   static const Double_t kLightVelocity = 2.99792458e8; //! light velocity [cmm/sec]
+   static const Double_t kGiga          = 1.0e9;        //! Giga = 10^{9}
 #else
-   static const Double_t kLightVelocity;    // light velocity
-   static const Double_t kGiga;             // Giga = 10^9
+   static const Double_t kLightVelocity;                //! light velocity [cm/secc]
+   static const Double_t kGiga;                         //! Giga = 10^{9}
 #endif
 
    ClassDef(TVTrack,1)      // Base class for any track
