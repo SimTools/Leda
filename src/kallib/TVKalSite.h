@@ -15,6 +15,8 @@
 //*   2003/09/30  K.Fujii	Original version.
 //*   2005/02/23  A.Yamaguchi	Added getter and setter for a new static
 //*                             data member, fgKalSysPtr.
+//*   2005/08/25  A.Yamaguchi	Removed getter and setter for a new static
+//*                             data member, fgKalSysPtr.
 //*
 //*************************************************************************
 //
@@ -73,12 +75,7 @@ public:
    inline virtual TKalMatrix & GetCovMat       ()   { return fR; }
    inline virtual Double_t     GetDeltaChi2() const { return fDeltaChi2; }
 
-   static TVKalSystem *GetKalSystemPtr()                 { return fgKalSysPtr; }
-
 private:
-   // Setters
-   static void         SetKalSystemPtr(TVKalSystem *pp)  { fgKalSysPtr = pp; }
-
    // Private utility methods
 
    virtual TVKalState & CreateState(const TKalMatrix &sv, Int_t type = 0) = 0;
@@ -98,8 +95,6 @@ private:
    TKalMatrix     fR;           // covariance matrix: M(m,m)
    Double_t       fDeltaChi2;   // chi2 increment
 
-   static TVKalSystem *fgKalSysPtr;  //! current active parent ptr
-   
    ClassDef(TVKalSite,1)      // Base class for measurement vector objects
 };
 
@@ -113,7 +108,5 @@ void TVKalSite::Add(TObject *obj)
    fCurStatePtr = (TVKalState *)obj;
    fCurStatePtr->SetSitePtr(this);
 }
-
-
 
 #endif

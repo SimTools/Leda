@@ -25,6 +25,8 @@
 //
 ClassImp(TVKalSystem)
 
+TVKalSystem *TVKalSystem::fgCurInstancePtr = 0;
+
 TVKalSystem::TVKalSystem(Int_t n) 
             :TObjArray(n),
              fCurSitePtr(0),
@@ -34,6 +36,7 @@ TVKalSystem::TVKalSystem(Int_t n)
 
 TVKalSystem::~TVKalSystem() 
 {
+   if (this == fgCurInstancePtr) fgCurInstancePtr = 0;
 }
 
 //-------------------------------------------------------
@@ -42,6 +45,8 @@ TVKalSystem::~TVKalSystem()
 
 Bool_t TVKalSystem::AddAndFilter(TVKalSite &next)
 {
+   SetCurInstancePtr(this);
+
    //
    // Propagate current state to the next site
    //

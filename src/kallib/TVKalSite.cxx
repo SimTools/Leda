@@ -27,8 +27,6 @@
 //
 ClassImp(TVKalSite)
 
-TVKalSystem *TVKalSite::fgKalSysPtr = 0;
-
 TVKalSite::TVKalSite(Int_t m, Int_t p)
                    :TObjArray(2),
                     TAttLockable(),
@@ -57,7 +55,6 @@ Bool_t TVKalSite::Filter()
 {
 
    // prea and preC should be preset by TVKalState::Propagate()
-
    TVKalState &prea = GetState(TVKalSite::kPredicted);
    TKalMatrix h = fM;
    if (!CalcExpectedMeasVec(prea,h)) return kFALSE;
