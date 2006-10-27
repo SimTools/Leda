@@ -70,7 +70,7 @@ public:
 
    inline virtual void DebugPrint(const Char_t *opt = "Brief") const {
      cerr << "p    = " << operator()(1) << " " << operator()(2) << endl;
-     if (opt == "Detailed") {
+     if (TString(opt).Contains("Detailed")) {
        cerr << "ap   = " << Mod()  << endl;
      }
    }

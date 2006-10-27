@@ -154,7 +154,7 @@ public:
      using namespace std;
      cerr << "p    = " << operator()(1) << " "
                        << operator()(2) << " " << operator()(3) << endl;
-     if (opt == "Detailed") {
+     if (TString(opt).Contains("Detailed")) {
        cerr << "pt   = " << GetPt()   << endl;
        cerr << "ap   = " << GetMag()  << endl;
      }

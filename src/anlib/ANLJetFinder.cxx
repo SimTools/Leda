@@ -125,7 +125,7 @@ void ANLJet::Remove(TObject *part) {
 void ANLJet::DebugPrint(const Char_t *opt) const {
    cerr << "Number of particles in jets = " << GetNparticles() << endl;
    ANL4DVector::DebugPrint(opt);
-   if (opt == "Detailed") {
+   if (TString(opt).Contains("Detailed")) {
       TIter next(&fParts);
       ANL4DVector *p;
       Int_t np = 0;
