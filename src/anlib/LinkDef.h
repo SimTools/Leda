@@ -18,5 +18,6 @@
 #pragma link C++ class ANLDurhamJetFinder;
 #pragma link C++ class ANLEventShape;
 #pragma link C++ class ANL2DSpline;
+#pragma link C++ class ANLGausFitter;
 
 #endif
