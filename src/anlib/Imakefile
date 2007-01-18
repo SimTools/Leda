@@ -46,7 +46,7 @@ OBJS		= ANLJetFinder.$(ObjSuf) \
 		  ANL3DVector.$(ObjSuf) \
 		  ANL4DVector.$(ObjSuf) \
 		  ANL2DSpline.$(ObjSuf) \
-		  ANLGausFitter.$(ObjSuf)
+		  ANLGaussFitter.$(ObjSuf)
 
 /* You don't have to edit anything below here */
 

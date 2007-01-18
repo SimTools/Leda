@@ -1,6 +1,6 @@
 //*************************************************************************
 //* ======================
-//*  GausFitter Classes
+//*  GaussFitter Classes
 //* ======================
 //*
 //* (Description)
@@ -8,20 +8,20 @@
 //* (Requires)
 //* 
 //* (Provides)
-//*     class ANLGausFitter
+//*     class ANLGaussFitter
 //* (Update Recored)
 //*    2005/10/05  S.Yamamoto      Original very primitive version.
 //*
 //*************************************************************************
 //
-#include "ANLGausFitter.h"
+#include "ANLGaussFitter.h"
 #include <iostream>
 
-ClassImp(ANLGausFitter)
+ClassImp(ANLGaussFitter)
 
 //=====================================================================
 //* constructor -------------------------------------------------------
-ANLGausFitter::ANLGausFitter(TH1      *hist,
+ANLGaussFitter::ANLGaussFitter(TH1      *hist,
 			       Double_t  nsigma,            
 			       Double_t  xlo,      
 			       Double_t  xhi,          
@@ -39,7 +39,7 @@ ANLGausFitter::ANLGausFitter(TH1      *hist,
 
 //=====================================================================
 //* GetFunction -------------------------------------------------------
-TF1* ANLGausFitter::GetFunction() 
+TF1* ANLGaussFitter::GetFunction() 
 { 
   if (!fDone) Update();
   return   fHistPtr->GetFunction("gaus"); 
@@ -48,7 +48,7 @@ TF1* ANLGausFitter::GetFunction()
 //=====================================================================
 //* Update ------------------------------------------------------------
 
-void ANLGausFitter::Update()
+void ANLGaussFitter::Update()
 {
   if (fDone) return;
   fDone = kTRUE;
