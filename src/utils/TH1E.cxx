@@ -18,6 +18,9 @@
 //*************************************************************************
 //
 #include "TH1E.h"
+#if ROOT_VERSION_CODE >= ROOT_VERSION(5,15,0)
+#include "TMath.h"
+#endif
 #include <string>
 #include <iostream>
 
