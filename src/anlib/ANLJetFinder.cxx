@@ -59,6 +59,7 @@
 //*    2001/10/22  K.Ikematsu   Changed Merge method to virtual
 //*                             for overloading in ANLTaggedJet class.
 //*    2001/10/24  K.Ikematsu   Added virtual NewJetFinder method.
+//*    2008/02/13  D.Jeans      Improved efficiency of jet forcing
 //*
 //* $Id$
 //*************************************************************************
@@ -252,7 +253,8 @@ ANLJetFinder & ANLJetFinder::operator=(const ANLJetFinder & jf) {
 //*--
 //*  Basic Services
 //*--
-void ANLJetFinder::FindJets() {
+void ANLJetFinder::FindJets(Int_t nforcejets) {
+  // added njet forcing to this method - djeans 12/2/08
    if (fDone) return;
    if (!IsInitialized()) {
       cout << "ANLJetFinder::FindJets : No particles in the stack" << endl
@@ -262,6 +264,19 @@ void ANLJetFinder::FindJets() {
    fDone     = kTRUE;
    Int_t np  = fJets.GetEntries();	// There is yet no gap in fJets here.
    if (np < 2) return;
+
+   if (nforcejets>0) {
+     if (np==nforcejets) {
+       cout << "ANLJetFinder::FindJets - nothing to do: passed " << np << " particles and asked to make " << nforcejets << " jets" << endl;
+       return;
+     }
+     else if (np<=nforcejets) {
+       cout << "ANLJetFinder::FindJets - warning: passed " << np << " particles and asked to make " << nforcejets << " jets" << endl;
+       fYcut = -1;
+       return;
+     }
+   }
+
    //
    // Initialize pair mass matrix.
    //
@@ -294,10 +309,12 @@ void ANLJetFinder::FindJets() {
 	    jm = j;
          }
       }
-      if (minmass > masscut) {
+
+      if (nforcejets<=0 && minmass > masscut) { // changed djeans: only break if not forcing njets
 	fYmassMax = minmass;
 	break;
       }
+
       //
       // Pair (im,jm) accepted.
       //
@@ -306,6 +323,7 @@ void ANLJetFinder::FindJets() {
       oim->Merge(ojm);				// Merge Jet j to i.
       fJets.Remove(ojm);			// Remove jet j from fJets
       delete ojm;				// Delete jet j
+
       //
       // Update the pair mass array.
       //
@@ -315,6 +333,13 @@ void ANLJetFinder::FindJets() {
          if (oj == 0) continue;
          ymass(TMath::Min(j,im),TMath::Max(j,im)) = GetYmass(*oim,*oj);
       }
+
+      if (nforcejets>0 && fJets.GetEntries()==nforcejets) { // added djeans: break here if forcing and njets correct
+	// fill ycut
+	fYmassMax = minmass;
+	fYcut = minmass/(fEvis*fEvis); // this is the ycut at which we go from njets+1 -> njets
+	break;
+      }
    }
    //
    // Eliminate empty slots.
@@ -323,41 +348,48 @@ void ANLJetFinder::FindJets() {
 }
 
 void ANLJetFinder::ForceNJets(Int_t njets) {
-   if (njets < 1) {
-      cout << "ANLJetFinder::ForceNJets : njets = " << njets
-           << " invalied" << endl;
-      return;
-   }
-   if (!fDone) FindJets();		// Find jets if not yet.
-   if (GetNjets() <= njets) return;	// No further clustering necessary.
-   //
-   // Binary search ycut to make njets Jet's.
-   //
-   Double_t   ycutLo = fYcut;
-   Double_t   ycutHi = 1.0;
-   Double_t   ycut;
-   ANLJetFinder *jf  = 0;
 
-   Int_t ntrial = 0;
-   while (kTRUE) {
-      ntrial++;
-      ycut = (ycutLo + ycutHi)/2;
-      jf   = NewJetFinder(this);
-      SetYcut(ycut);
-      FindJets();
-      Int_t nj = GetNjets();
-      if (ntrial > 100) cerr << "ANLJetFinder::ForceNJets : Making "
-			     << njets << "Jets was aborted ! Njets = "
-			     << nj << endl;
-      if (nj == njets || ntrial > 100) { delete jf; break; } // Found a valid ycut, quit looping.
-      if (nj > njets) {
-         ycutLo = ycut;
-      } else {
-         ycutHi = ycut;
-         *this  = *jf;
-      }
-      delete jf;
-   }
+  if (njets < 1) {
+    cout << "ANLJetFinder::ForceNJets : njets = " << njets
+	 << " invalied" << endl;
+    return;
+  }
+
+  // simplified by djeans 12/2/08
+  FindJets(njets);
+
+  //if (!fDone) FindJets();		// Find jets if not yet.
+  //if (GetNjets() <= njets) return;	// No further clustering necessary.
+  //
+  // Binary search ycut to make njets Jet's.
+  //
+  //Double_t   ycutLo = fYcut;
+  //Double_t   ycutHi = 1.0;
+  //Double_t   ycut;
+  //ANLJetFinder *jf  = 0;
+  //
+  //Int_t ntrial = 0;
+  //while (kTRUE) {
+  //  ntrial++;
+  //  ycut = (ycutLo + ycutHi)/2;
+  //  jf   = NewJetFinder(this);
+  //  SetYcut(ycut);
+  //  FindJets();
+  //  Int_t nj = GetNjets();
+  //  if (ntrial > 100) cerr << "ANLJetFinder::ForceNJets : Making "
+  //			   << njets << "Jets was aborted ! Njets = "
+  //			   << nj << endl;
+  //  if (nj == njets || ntrial > 100) { delete jf; break; } // Found a valid ycut, quit looping.
+  //  if (nj > njets) {
+  //    ycutLo = ycut;
+  //  } else {
+  //    ycutHi = ycut;
+  //    *this  = *jf;
+  //  }
+  //  delete jf;
+  //}
+
+  return;
 }
 
 Double_t ANLJetFinder::GetYmass(const ANL4DVector &p1,

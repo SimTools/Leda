@@ -61,6 +61,7 @@
 //*    2001/10/22  K.Ikematsu   Changed Merge method to virtual
 //*                             for overloading in ANLTaggedJet class.
 //*    2001/10/24  K.Ikematsu   Added virtual NewJetFinder method.
+//*    2008/02/13  D.Jeans      Improved efficiency of jet forcing
 //*
 //* $Id$
 //*************************************************************************
@@ -131,8 +132,8 @@ public:
 
    void SetYcut(Double_t ycut);              // sets ycut
    void Initialize(const TObjArray &parts);  // sets each particle as a jet
-   void FindJets();                          // finds jets
-   void ForceNJets(Int_t njets);             // forces the event to njets
+   void FindJets(Int_t nForceJets=0);        // finds jets - if nForceJets>0, force event to nForceJets
+   void ForceNJets(Int_t njets);             // forces the event to njets (kept for backward compatibility)
    virtual ANLJet *NewJet() {                // make new ANLJet object
      return new ANLJet();
    }
