@@ -60,6 +60,9 @@
 //*                             for overloading in ANLTaggedJet class.
 //*    2001/10/24  K.Ikematsu   Added virtual NewJetFinder method.
 //*    2008/02/13  D.Jeans      Improved efficiency of jet forcing
+//*    2008/03/26  K.Fujii      Fixed operator= to copy fYmassMax.
+//*                             Modified to allow restarting from a
+//*                             previous state of jet clustering.
 //*
 //* $Id$
 //*************************************************************************
@@ -245,6 +248,7 @@ ANLJetFinder & ANLJetFinder::operator=(const ANLJetFinder & jf) {
    fDone = jf.fDone;
    fYcut = jf.fYcut;
    fEvis = jf.fEvis;
+   fYmassMax = jf.fYmassMax;
    CopyJets(jf.fJets);
    if (fYmass) { delete fYmass; fYmass = 0; }
    return *this;
@@ -255,6 +259,10 @@ ANLJetFinder & ANLJetFinder::operator=(const ANLJetFinder & jf) {
 //*--
 void ANLJetFinder::FindJets(Int_t nforcejets) {
   // added njet forcing to this method - djeans 12/2/08
+#if 1
+   Int_t np  = fJets.GetEntries();
+   if (nforcejets > 0 && nforcejets < np) fDone = kFALSE;
+#endif
    if (fDone) return;
    if (!IsInitialized()) {
       cout << "ANLJetFinder::FindJets : No particles in the stack" << endl
@@ -262,7 +270,9 @@ void ANLJetFinder::FindJets(Int_t nforcejets) {
       return;
    }
    fDone     = kTRUE;
+#if 0
    Int_t np  = fJets.GetEntries();	// There is yet no gap in fJets here.
+#endif
    if (np < 2) return;
 
    if (nforcejets>0) {
