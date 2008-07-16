@@ -7,6 +7,7 @@
 #pragma link C++ class TFFT+;
 #pragma link C++ class TH1E+;
 #pragma link C++ class TObjNum+;
+#pragma link C++ class TObjInt+;
 #pragma link C++ class TDim+;
 #pragma link C++ class TDynArray2+;
 #pragma link C++ class TDynArray3+;

@@ -8,6 +8,7 @@ SOREV         = 2005a
 SRCS          = TFFT.$(SrcSuf) \
 		TH1E.$(SrcSuf) \
                 TObjNum.$(SrcSuf) \
+                TObjInt.$(SrcSuf) \
                 TDim.$(SrcSuf) \
                 TDynArray2.$(SrcSuf) \
                 TDynArray3.$(SrcSuf) \
