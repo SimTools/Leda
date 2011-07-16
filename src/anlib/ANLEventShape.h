@@ -30,6 +30,8 @@
 #include "TClass.h"
 #include "TMath.h"
 #include "TMatrix.h"
+#include "TMatrixD.h"
+#include "TMatrixDEigen.h"
 #include "TRandom.h"
 #include "TObjArray.h"
 #include "ANL4DVector.h"
@@ -53,6 +55,9 @@ public:
 
 	Double_t getThMomPower();
 	Int_t    getFast();
+	Double_t GetSphericity() const;
+	Double_t GetAplanarity() const;
+	Double_t GetYValue() const;
 	Double_t GetThrust() const;
 	
 	TVector3* thrustAxis();
@@ -102,6 +107,9 @@ private:
 
 	Double_t m_dThrust[4];
 	Double_t m_dOblateness;
+	Double_t sphericity;
+	Double_t aplanarity;
+	Double_t Yvalue;
 	TVector3 m_EigenVector1;
 	TVector3 m_EigenVector2;
 	TVector3 m_EigenVector3;

@@ -90,6 +90,8 @@ void ANLEventShape::setEvent(TObjArray* e)
   Double_t thp;
   Double_t thps;
   TMatrix temp(3,5);
+  TMatrixD M_ab(3,3);
+  TMatrixD M_pre(3,3);
 
   // -----------------------------------
   // Store particles' 3-momenta in "mom"
@@ -130,7 +132,44 @@ void ANLEventShape::setEvent(TObjArray* e)
       m_dOblateness = -1.0;
       return;
   }
-  
+
+  // -----------------------------------
+  // Calculate sphericity, aplanarity, Y-value
+  // -----------------------------------
+  // See "Collider Physics" pp.280-282 (Chapter 9. "Jets")
+
+  Double_t pre[7] = {0.,0.,0.,0.,0.,0.,0.};
+  for(Int_t i=0; i<np; i++)
+    {
+      pre[0] += mom(i,1)*mom(i,1)+mom(i,2)*mom(i,2)+mom(i,3)*mom(i,3);
+      pre[1] += mom(i,1)*mom(i,1);
+      pre[2] += mom(i,1)*mom(i,2);
+      pre[3] += mom(i,1)*mom(i,3);
+      pre[4] += mom(i,2)*mom(i,2);
+      pre[5] += mom(i,2)*mom(i,3);
+      pre[6] += mom(i,3)*mom(i,3);
+    }
+
+  M_ab(0,0) = pre[1]/pre[0];
+  M_ab(0,1) = pre[2]/pre[0];
+  M_ab(0,2) = pre[3]/pre[0];
+  M_ab(1,0) = pre[2]/pre[0];
+  M_ab(1,1) = pre[4]/pre[0];
+  M_ab(1,2) = pre[5]/pre[0];
+  M_ab(2,0) = pre[3]/pre[0];
+  M_ab(2,1) = pre[5]/pre[0];
+  M_ab(2,2) = pre[6]/pre[0];
+
+  TMatrixDEigen *eig = new TMatrixDEigen(M_ab);
+  M_pre += eig->GetEigenValues();
+  m_dEigenValue1 = M_pre(2,2);
+  m_dEigenValue2 = M_pre(1,1);
+  m_dEigenValue3 = M_pre(0,0);
+
+  sphericity = 1.5*(m_dEigenValue1+m_dEigenValue2); //sphericity
+  aplanarity = 1.5*m_dEigenValue1; //aplanarity
+  Yvalue = TMath::Sqrt(3)*(m_dEigenValue2-m_dEigenValue1)/2.; //Y-value (see "Collider Physics" pp.282)
+
   // -----------------------------------
   // Find thrust/major axes
   // -----------------------------------
@@ -334,6 +373,24 @@ Int_t ANLEventShape::getFast()
 //______________________________________________________________
 
 // Returning results
+
+Double_t ANLEventShape::GetSphericity() const
+{
+  return sphericity;
+}
+//______________________________________________________________
+
+Double_t ANLEventShape::GetAplanarity() const
+{
+  return aplanarity;
+}
+//______________________________________________________________
+
+Double_t ANLEventShape::GetYValue() const
+{
+  return Yvalue;
+}
+//______________________________________________________________
 
 TVector3* ANLEventShape::thrustAxis()
 {
